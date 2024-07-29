@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Curve{% endblock %}
+
+{% block content %}
+    <h1>CURVE!!!</h1>
+    <h2>Players:</h2>
+    <h3>Number: {{ game.number_of_players }}</h3>
+    <ul>
+        {% for player in players %}
+            <li>{{ player.user.username }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
+    <div id="canvas_container">
+        <canvas id="curve" width="755" height="755"></canvas>
+    </div>
+
+    <script src="{% static 'myapp/js/player.js' %}"></script>
+    <script src="{% static 'myapp/js/powerup.js' %}"></script>
+    <script src="{% static 'myapp/js/history.js' %}"></script>
+    <script src="{% static 'myapp/js/script.js' %}"></script>
+    <script src="{% static 'myapp/js/game.js' %}"></script>
+    <script src="{% static 'myapp/js/player_utils.js' %}"></script>
+    <script src="{% static 'myapp/js/player_paint.js' %}"></script>
+    <script src="{% static 'myapp/js/player_power.js' %}"></script>
+    <script src="{% static 'myapp/js/player_iteration.js' %}"></script>
+    <script src="{% static 'myapp/js/utils.js' %}"></script>
+    <script src="{% static 'myapp/js/round.js' %}"></script>
+    <script src="{% static 'myapp/js/keys.js' %}"></script>
+    <script src="{% static 'myapp/js/paint.js' %}"></script>
+    <script>
+        window.onload = function() {
+        // Call your function here
+        ft_start();
+    }
+    </script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Game List{% endblock %}
+
+{% block content %}
+
+    <h1>Active Games</h1>
+    {% if active_games %}
+        <ul class="room-list">
+            {% for game in active_games %}
+            <li class="room-item">
+                {{ game.name }}
+                <a href="{% url 'game_room' game.id %}" class="join-room-btn">Join Game</a>
+                <a href="{% url 'delete_game' game.id %}" class="delete-room-btn">Delete Game</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-rooms">No active games available</p>
+    {% endif %}
+    <a href="{% url 'create_game' %}" class="create-room-btn">Create New Game</a>
+{% endblock %}

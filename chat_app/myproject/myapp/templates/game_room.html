@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}GameRoom: {{ game.name }}{% endblock %}
+
+{% block content %}
+    <h1>Game Room: {{ game.name }}</h1>
+
+    <h2>Players:</h2>
+    <h3>Number: {{ game.number_of_players }}</h3>
+    <ul>
+        {% for player in players %}
+            <li>{{ player.user.username }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'game_play' game.id %}" class="start-game-btn">Start Game</a>
+    <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
+
+{% endblock %}

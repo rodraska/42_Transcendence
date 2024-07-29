@@ -1,0 +1,222 @@
+----------06/07/2024----------
+
+Set up python virtual environment
+Install django
+Create new django project (myproject)
+Create new app inside project (myapp)
+myproject/settings.py: Add myapp to INSTALLED_APPS
+
+sendinguperuser: username: admin password: pass123
+
+myapp/models.py: 
+Create the models ChatRoom and Message, both inheriting from models.Models 
+ForeignKey sets up a one-to-many relationship: 
+A Message belongs to one ChatRoom, and a ChatRoom might have many Messages
+A Message belongs to one User, and a User might have many Messages
+
+myapp/views.py
+Create chat_room view taking a HTPP request and the room_id passed from the URL
+retrieves chat room with given room_id
+retrieves messages from that chat room
+renders the chat_room.html template, passing it the room and messages variables
+
+Create myapp/urls.py:
+Create urlpattern 'room/<room_id>' and connect it to the view chat_room
+
+myproject/urls.py:
+Add urlpattern 'chat'
+
+Create myapp/templates/chat_room.html:
+Template presentation for the chat room.
+Includes room name, messages and form for sending new messages
+room and messages variables were passed from the view
+
+myapp/views.py:
+Update chat_room view to allow posting of messages
+The content of the message is retrieved from POST
+A new Message is created: content is retrieved content, room is the current room, sender is the user who made the request
+Redirects to the same chat room_id
+
+Create Login and Logout:
+
+    myapp/views.py:
+    Create login and logout view
+    login_view: retrieves username and password from form data
+    Tries to authenticate user
+    If user is well authenticated, logs in and redirects him to chat room
+    If not renders login template again
+    
+    Create myapp/templates/login.html:
+    Template presentation for login
+    Requires the submission of username and password
+    
+    myapp/urls.py & myproject/urls.py:
+    Change URL patterns to accomodate login and logout urls
+
+Create Register Page:
+
+    myapp/views.py:
+    Create register view
+    Creates an instance of UserCreationForm, which is Django's built in form for creating new Users
+
+    myapp/urls.py:
+    Add register urlpattern
+
+    Create myapp/templates/register.html
+    Template presentation for register
+
+User: username: rodraska password: Escola42
+
+Create Home Page:
+    myapp/views.py:
+    Create home view
+
+    myapp/urls.py:
+    Create home urlpattern
+
+    Create myapp/templates/home.html:
+    Template presentation for home page
+
+Change login and register views to redirect to home page after successful login/registration
+
+Create Chat Room List Page:
+    myapp/views.py:
+    Create chat_room_list view
+
+    myapp/urls.py:
+    Create chat/room urlpattern
+
+    Create myapp/templates/chat_room_list.html
+    Template presentation for chat room list page
+
+Create ability to create new ChatRoom:
+    Create myapp/forms.py
+    Create ChatRoomForm, inheriting from ModelForm
+    It has the following metadata: uses the ChatRoom class to create the form with the field name
+
+    myapp/views.py:
+    Create create_chat_room view
+    Creates a new instance of the ChatRoomForm; if the form is valid a new room is created and saved
+    Redirects to chat_room_list page
+
+    Create myapp/templates/create_chat_room.html:
+    Template presentation for create new chat room
+
+    myapp/urls.py:
+    Create chat/room/create url pattern
+
+Django Channels & WebSockets:
+
+    Install Channels
+    Add channels to INSTALLED_APPS
+    Change myproject/asgi.py: ProtocolTypeROuter will handle both HTTP requests and WebSocket connections
+
+    Create myapp/routing.py for websocket urlpatterns
+
+    Create myapp/consumers.py:
+    Create ChatConsumer inherting from WebsocketConsumer (Server Side WebSocket)
+    connect method is called when a WebSocket connection is established, self.accept accepts the connection
+    disconnect method is called when the WebSocket connection is closed
+    receive method is called whenever the consumer receives a message from the WebSocket
+    the received JSON string is parsed into a python dictionary , the message is extracted and sent back to the client
+
+    Modify chat_room.html to accomodate WebSockets
+    Now there is a chatLog to display several messages, a message input text field and a message submit button
+    In a js script, a new WebSocket connection is instantiated (Client Side WebSocket)
+    onmessage method adds a message to the log when a message is received
+    sendMessage method sends a message whose content is the inputfield; the method is called whenever the submit button or the Enter key is pressed
+
+    myapp/consumers.py
+    Changes to ChatConsumer:
+    Use of channel layers and groups.
+    In the connect method, adds the user to a group
+    In the disconnect method, removed the user from the group
+    In the receive method, when a message is received it is broadcasted to the entire group
+    The chat_message method is called for every client in the group in the receive method
+
+daphne myproject.asgi:application
+
+----------07/07/2024----------
+
+Small changes to myapp/templates/chat_room.html
+myapp/consumers.py: 
+WebSocket will also broadcast the user and timestamp of the message
+database_sync_to_async converts synchronous methods to an asynchronous situation
+when a message is received it is saved to the ChatRoom database_sync_to_async
+when a user connects the ChatRoom WebSocket sends him the latest 50 messages
+
+Create base.html and extend other templates from this
+
+----------13/07/2024----------
+
+myapp/templates: home, login and register now extends from base.html
+
+Start implementing Curve:
+
+myapp/models.py:
+
+Add a Game Model:
+    name of the Game
+    boolean describing if it's active or not
+    TimeField of when the game was created
+    JSONField describing the current state of the game
+
+Add a Player Model
+    OneToOne relationship with User
+    ForeignKey to Game which can be null, with a related name allowing the access of all players in a game
+
+myapp/views.py: Create game_list view
+
+myapp/template: Create game_list.html
+
+myapp/urls.py: Create url pattern for game list
+
+myapp/views.py: Create create_game view
+
+myapp/templates: reate create_game.html
+
+myapp/forms.py: Create Game Form
+
+myapp/views.py: Create game_room view
+
+myapp/templates: Create game_room.html
+
+myapp/urls.py: Create url pattern for game room
+
+myapp/templestes/base.html: Add Game List to navbar
+
+Join Game functionality:
+
+    Update the game_room view to include the join_room functionality.
+    Checks if the player already has a game, leaves it if true and joins the new game
+
+    Update game_list.html to include join game buttons
+
+    Update game_room.html to include leave game button
+
+    Implement leave game view
+
+    Create url pattern for leave game
+
+----------20/07/2024----------
+
+Create game_interface.html (canvas for the game) and include it in game_room.html
+The game interface will call javascript files running the game logic.
+The javascript files are placed in a newly created diretory 'static/myapp/js'
+Update Player and Game Model:
+    Game has a number_of_players property
+    Player has a joined_at variables, the ordering of the players is done according to joined date 
+    Player has methods join_game and leave_game updating its game and joined_at attributes
+Create delete_game and delete_chat_room with corresponding views, urls and buttons on templates
+
+----------25/07/2024----------
+
+game_room.html:
+    Add start game and leave game buttons
+    Create game_play bundle (template, view, url)
+    Player will be redirected to game_play.html after clicking the start game button
+    
+    
+
+
+

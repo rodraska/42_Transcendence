@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Chat and Game App</h1>
+
+    {% if user.is_authenticated %}
+        <h2>Hello, {{ user.username }}!</h2>
+        <!-- <a href="{% url 'chat_room_list' %}">Views Chat Rooms</a>
+        <a href="{%url 'logout' %}">Logout</a> -->
+    {% else %}
+        <h2>Please log in or register to use chat rooms</h2>
+        <!-- <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a> -->
+    {% endif %}
+{% endblock %}

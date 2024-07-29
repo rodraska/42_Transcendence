@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width intial-scale=1.0">
+    <title>{% block title %}Chat Application{% endblock %}</title>
+    {% load static %}
+    <style>
+    body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+    }
+
+    .main-nav {
+        background-color: #333;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .main-nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .main-nav ul li {
+        display: inline;
+        margin-right: 10px;
+    }
+
+    .main-nav ul li a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .chat-container, .room-list-container {
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .chat-header, .room-list-header {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .chat-log {
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .chat-input {
+        display: flex;
+    }
+
+    #chat-message-input {
+        flex-grow: 1;
+        padding: 5px;
+    }
+
+    #chat-message-submit {
+        padding: 5px 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .message {
+        margin-bottom: 10px;
+    }
+
+    .message-user {
+        font-weight: bold;
+    }
+
+    .message-timestamp {
+        color: #888;
+        font-size: 0.8em;
+    }
+
+    .room-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .room-item {
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    .room-link {
+        text-decoration: none;
+        color: #333;
+    }
+
+    .create-room-btn {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        margin-top: 20px;
+    }
+
+    .join-room-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete-room-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        background-color: red;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .start-game-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        background-color: green;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }    
+
+    .join-room-btn:hover {
+        background-color: #0056b3;
+    }
+
+    footer {
+        margin-top: 20px;
+        text-align: center;
+        color: #888;
+    }
+        </style>
+    {% block extra_css %}{% endblock %}
+<body>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'chat_room_list' %}">Chat Rooms</a></li>
+            <li><a href="{% url 'game_list' %}">Game List</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
