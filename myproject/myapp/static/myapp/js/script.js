@@ -12,6 +12,14 @@ const offset = 4;
 const width = canvas.width;
 const height = canvas.height;
 
+const player = getPlayerById(1);
+if (player) {
+    console.log(`Player: ${player.username}`);
+}
+else {
+    console.log('Player not found');
+}
+
 function players_free()
 {
     if (currentIters.begin == 150)

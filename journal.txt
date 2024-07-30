@@ -216,7 +216,19 @@ game_room.html:
     Create game_play bundle (template, view, url)
     Player will be redirected to game_play.html after clicking the start game button
     
+----------29/07/2024----------
+
+Lost Entry
+
+----------30/07/2024----------
+
+Removed caching from firefox
+On js files, commented out all the code getting html elements still not present in template */ abc
+game_play.html:
+    Changes structure of players list
+    Created getPlayerById function 
     
+
 
 
 

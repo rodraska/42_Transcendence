@@ -2,7 +2,7 @@ function ft_round()
 {
     if (game_winner != 0) return (final_paint());
     round++;
-    document.getElementById("round").innerHTML = "Round " + round;
+    /* abc document.getElementById("round").innerHTML = "Round " + round;*/
     powers = [];
     players = [];
     ctx.reset();

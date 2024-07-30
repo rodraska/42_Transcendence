@@ -7,9 +7,11 @@
     <h1>CURVE!!!</h1>
     <h2>Players:</h2>
     <h3>Number: {{ game.number_of_players }}</h3>
-    <ul>
+    <ul id="playerList">
         {% for player in players %}
-            <li>{{ player.user.username }}</li>
+            <li data-player-id="{{ player.id }}" data-username="{{ player.user.username }}">
+                {{ player.user.username }} [{{ player.id }}]
+            </li>
         {% endfor %}
     </ul>
     <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
@@ -17,6 +19,26 @@
         <canvas id="curve" width="755" height="755"></canvas>
     </div>
 
+    <script>
+        function getPlayerById(playerId)
+        {
+            const playerList = document.getElementById('playerList');
+            const playerElement = playerList.querySelector(`[data-player-id="${playerId}"]`);
+
+            if (playerElement)
+            {
+                const username = playerElement.dataset.username;
+                return {
+                    id: playerId,
+                    username: username
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+    </script>
     <script src="{% static 'myapp/js/player.js' %}"></script>
     <script src="{% static 'myapp/js/powerup.js' %}"></script>
     <script src="{% static 'myapp/js/history.js' %}"></script>
@@ -34,6 +56,6 @@
         window.onload = function() {
         // Call your function here
         ft_start();
-    }
+        }
     </script>
 {% endblock %}

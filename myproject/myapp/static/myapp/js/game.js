@@ -139,7 +139,7 @@ function saveCanvas() {s_ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height
 
 function restoreCanvas() {ctx.drawImage(s_canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)}
 
-playersPlay = document.getElementById('playersPlay');
+/* abc playersPlay = document.getElementById('playersPlay');
 playersPlay.textContent = numberPlayers + ' Players';
 playerList = document.getElementById('playerList');
 for (let i = 0; i < numberPlayers; i++)
@@ -162,4 +162,4 @@ for (let i = 0; i < numberPlayers; i++)
     playerDiv.appendChild(playerName);
     playerDiv.appendChild(playerScore);
     playerList.appendChild(playerDiv);
-}
+}*/

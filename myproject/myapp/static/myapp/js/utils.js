@@ -23,7 +23,7 @@ function give_points(id)
     for (let i = 0; i < players.length; i++)
     {
         (i != (id - 1) && players[i].stop == false) ? playerScores[i + 1] += 1 : null; 
-        document.getElementById("score" + (i + 1)).innerHTML = playerScores[i + 1];
+        /* abc document.getElementById("score" + (i + 1)).innerHTML = playerScores[i + 1]; */
     }
 }
 
