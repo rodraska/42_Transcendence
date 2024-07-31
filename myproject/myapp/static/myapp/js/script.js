@@ -20,6 +20,8 @@ else {
     console.log('Player not found');
 }
 
+console.log('numberPlayers: ', numberPlayers);
+
 function players_free()
 {
     if (currentIters.begin == 150)

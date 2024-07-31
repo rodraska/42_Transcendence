@@ -6,7 +6,7 @@
 {% block content %}
     <h1>CURVE!!!</h1>
     <h2>Players:</h2>
-    <h3>Number: {{ game.number_of_players }}</h3>
+    <h3 id="numberPlayers">Number: {{ game.number_of_players }}</h3>
     <ul id="playerList">
         {% for player in players %}
             <li data-player-id="{{ player.id }}" data-username="{{ player.user.username }}">
@@ -20,6 +20,21 @@
     </div>
 
     <script>
+        var numberPlayers = "{{ game.number_of_players }}";
+        var playerElements = document.querySelectorAll('#playerList li');
+        var players = [];
+        for (var i = 0; i < playerElements.length; i++)
+        {
+            var playerElement = playerElements[i];
+            var playerId = playerElement.dataset.playerId;
+            var username = playerElement.dataset.username;
+
+            players.push({
+                id: playerId,
+                username: username
+            })
+        }
+        console.log(players);
         function getPlayerById(playerId)
         {
             const playerList = document.getElementById('playerList');

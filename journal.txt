@@ -227,7 +227,11 @@ On js files, commented out all the code getting html elements still not present 
 game_play.html:
     Changes structure of players list
     Created getPlayerById function 
-    
+
+----------31/07/2024----------
+
+game_play.html:
+    Created js variables numberPlayers and players 
 
 
 
