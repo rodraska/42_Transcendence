@@ -8,7 +8,7 @@ function paint_gg()
     if (game_winner == 0)
     {
         ctx.fillStyle = 'white';
-        ctx.fillText("Player " + round_winner + " Wins This Round", width / 2, height / 2);
+        ctx.fillText(round_winner + " Wins This Round", width / 2, height / 2);
     }
     else
     {
@@ -22,7 +22,7 @@ function final_paint()
     reset_paint();
     gamePaintHist();
     gamePaintPlayer();
-    gamePaintArray();
+    //gamePaintArray();
     gamePaintPowers();
     paint_offset();
     paint_gg();

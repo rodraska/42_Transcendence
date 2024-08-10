@@ -2,7 +2,7 @@ function ft_round()
 {
     if (game_winner != 0) return (final_paint());
     round++;
-    /* abc document.getElementById("round").innerHTML = "Round " + round;*/
+    /* abc Increase round number */
     powers = [];
     players = [];
     ctx.reset();
@@ -13,6 +13,7 @@ function players_spawn()
 {
     for (let i = 1; i <= numberPlayers; i++)
     {
+        player = getPlayerById(i);
         outer: while (1)
         {
             x = Math.floor(Math.random() * 3 * width / 4) - 3 * width / 8;
@@ -22,7 +23,7 @@ function players_spawn()
             break ;
         }
         let t = Math.floor(Math.random() * 361) * Math.PI / 180;
-        players.push(new Player(i, playerColors[i], playerRGB[i], [x, y], t, playerControls[i][0], playerControls[i][1]));
+        players.push(new Player(i, player.username, playerColors[i], playerRGB[i], [x, y], t, playerControls[i][0], playerControls[i][1]));
     }
 }
 
@@ -49,7 +50,7 @@ function roundWinner()
     let top_scorer = 0;
     for (let i = 1; i <= players.length; i++)
     {
-        if (players[i - 1].stop == false) round_winner = i;
+        if (players[i - 1].stop == false) round_winner = getPlayerById(i).username;
         if (playerScores[i] == playerScores[top_scorer]) top_scorer = 0;
         if (playerScores[i] > playerScores[top_scorer]) top_scorer = i;
     }

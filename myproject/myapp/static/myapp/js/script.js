@@ -12,9 +12,9 @@ const offset = 4;
 const width = canvas.width;
 const height = canvas.height;
 
-const player = getPlayerById(1);
-if (player) {
-    console.log(`Player: ${player.username}`);
+const player_tmp = getPlayerById(1);
+if (player_tmp) {
+    console.log(`Player: ${player_tmp.username}`);
 }
 else {
     console.log('Player not found');

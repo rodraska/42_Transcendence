@@ -13,9 +13,10 @@ class Player
     god = false;
     stop = false;
 
-    constructor(id, color, rgb, pos, theta, right, left)
+    constructor(id, name, color, rgb, pos, theta, right, left)
     {
         this.id = id;
+        this.name = name;
         this.color = color;
         this.rgb = rgb;
         this.pos = pos;

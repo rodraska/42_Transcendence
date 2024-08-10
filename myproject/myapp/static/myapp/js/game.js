@@ -1,4 +1,4 @@
-numberPlayers = 1;
+//numberPlayers = 1;
 
 players = [];
 powers = [];
@@ -138,28 +138,3 @@ function gamePaintPowers() {loop_all_powers(FtPower.paint_powerup)}
 function saveCanvas() {s_ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)}
 
 function restoreCanvas() {ctx.drawImage(s_canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)}
-
-/* abc playersPlay = document.getElementById('playersPlay');
-playersPlay.textContent = numberPlayers + ' Players';
-playerList = document.getElementById('playerList');
-for (let i = 0; i < numberPlayers; i++)
-{
-    playerNumber = i + 1;
-    //Create div element
-    playerDiv = document.createElement('div');
-    playerDiv.style.display = 'flex';
-    //Player Name
-    playerName = document.createElement('p');
-    playerName.textContent = 'Player ' + playerNumber;
-    playerName.style.justifyContent = 'left';
-    playerName.style.flexGrow = '1';
-    //Player Score
-    playerScore = document.createElement('p');
-    playerScore.textContent = '0';
-    playerScore.id = 'score' + playerNumber;
-    playerScore.style.justifyContent = 'left';
-    playerScore.style.flexGrow = '1';
-    playerDiv.appendChild(playerName);
-    playerDiv.appendChild(playerScore);
-    playerList.appendChild(playerDiv);
-}*/

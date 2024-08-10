@@ -22,8 +22,8 @@ function give_points(id)
 {
     for (let i = 0; i < players.length; i++)
     {
-        (i != (id - 1) && players[i].stop == false) ? playerScores[i + 1] += 1 : null; 
-        /* abc document.getElementById("score" + (i + 1)).innerHTML = playerScores[i + 1]; */
+        (i != (id - 1) && players[i].stop == false) ? playerScores[i + 1] += 1 : null;
+        /* abc Increase player score */
     }
 }
 

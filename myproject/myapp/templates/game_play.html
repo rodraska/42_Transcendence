@@ -10,10 +10,11 @@
     <ul id="playerList">
         {% for player in players %}
             <li data-player-id="{{ player.id }}" data-username="{{ player.user.username }}">
-                {{ player.user.username }} [{{ player.id }}]
+                {{ player.user.username }} [{{ player.id }}] - {{ player.points }}
             </li>
         {% endfor %}
     </ul>
+    <h3>Round: {{ game.round }}</h3>
     <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
     <div id="canvas_container">
         <canvas id="curve" width="755" height="755"></canvas>

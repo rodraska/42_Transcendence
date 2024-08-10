@@ -25,6 +25,7 @@ class Game(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     game_state = models.JSONField(default=dict)
+    round = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
