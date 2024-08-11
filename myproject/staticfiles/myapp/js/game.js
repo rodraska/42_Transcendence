@@ -2,7 +2,7 @@
 
 players = [];
 powers = [];
-round = 1;
+//round = 1;
 dead = 0;
 stp = 0;
 round_winner = 0;

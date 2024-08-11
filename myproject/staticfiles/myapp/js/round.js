@@ -3,6 +3,7 @@ function ft_round()
     if (game_winner != 0) return (final_paint());
     round++;
     /* abc Increase round number */
+    sendGameAction();
     powers = [];
     players = [];
     ctx.reset();

@@ -1,7 +1,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import ChatRoom, Message
+from .models import ChatRoom, Message, Game
 from django.contrib.auth.models import User
 from datetime import datetime
 
@@ -81,3 +81,56 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_timestamp(self):
         return Message.objects.latest('timestamp').timestamp.strftime("%Y-%m-%d %H:%M:%S")
+    
+class GameConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.game_id = self.scope['url_route']['kwargs']['game_id']
+        self.game_group_name = f'game_{self.game_id}'
+        self.user = self.scope["user"]
+
+        await self.channel_layer.group_add(
+            self.game_group_name,
+            self.channel_name
+        )
+
+        await self.accept()
+
+        async def disconnect(self, close_code):
+            await self.channel_layer.group_discard(
+                self.game_group_name,
+                self.channel_name
+            )
+        
+        async def receive(self, text_data):
+            text_data_json = json.loads(text_data)
+            action = text_data_json['action']
+
+            if action == 'update_game':
+                await self.update_game_state(text_data_json['game_state'])
+
+            game_state = await self.get_game_state()
+            await self.channel_layer.group_send(
+                self.game_group_name,
+                {
+                    'type': 'game_update',
+                    'game_state': game_state
+                }
+            )
+        
+        async def game_update(self, event):
+            game_state = event['game_state']
+            await self.send(text_data=json.dumps({
+                'type': 'game_update',
+                'game_state': game_state
+            }))
+        
+        @database_sync_to_async
+        def get_game_state(self):
+            game = Game.objects.get(id=self.game_id)
+            return game.state 
+        
+        @database_sync_to_async
+        def update_game_state(self, new_state):
+            game = Game.objects(id=self.game_id)
+            game.state = new_state
+            game.save()

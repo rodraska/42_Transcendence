@@ -14,13 +14,18 @@
             </li>
         {% endfor %}
     </ul>
-    <h3>Round: {{ game.round }}</h3>
+    <h3 id="round"></h3>
     <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
     <div id="canvas_container">
         <canvas id="curve" width="755" height="755"></canvas>
     </div>
 
+    {{ game.id|json_script:"game-id" }}
+
     <script>
+        var round = 1;
+        var roundElem = document.getElementById('round');
+        roundElem.textContent = `Round: ${round}`;
         var numberPlayers = "{{ game.number_of_players }}";
         var playerElements = document.querySelectorAll('#playerList li');
         var players = [];
@@ -35,7 +40,6 @@
                 username: username
             })
         }
-        console.log(players);
         function getPlayerById(playerId)
         {
             const playerList = document.getElementById('playerList');
@@ -53,6 +57,21 @@
             {
                 return null;
             }
+        }
+        const gameId = JSON.parse(document.getElementById('game-id').textContent);
+        const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/play/`);
+        gameSocket.onmessage = function(e) {
+            console.log('gameSocket.onmessage');
+        }
+
+        function updateGameState(gameState) {
+            console.log('updateGameState');
+        }
+
+        function sendGameAction() {
+            console.log('sendGameAction');
+            var roundElem = document.getElementById('round');
+            roundElem.textContent = `Round: ${round}`;
         }
     </script>
     <script src="{% static 'myapp/js/player.js' %}"></script>
