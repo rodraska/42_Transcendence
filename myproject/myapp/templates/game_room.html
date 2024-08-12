@@ -6,13 +6,59 @@
     <h1>Game Room: {{ game.name }}</h1>
 
     <h2>Players:</h2>
-    <h3>Number: {{ game.number_of_players }}</h3>
-    <ul>
+    <h3>Number: <span id="number-of-players">{{ game.number_of_players }}</span></h3>
+    <ul id="players-list">
         {% for player in players %}
             <li>{{ player.user.username }}</li>
         {% endfor %}
     </ul>
     <a href="{% url 'game_play' game.id %}" class="start-game-btn">Start Game</a>
     <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
+    
+    {{ game.id|json_script:"game-id" }}
 
+    <script>
+        const gameId = JSON.parse(document.getElementById('game-id').textContent);
+        const playersList = document.getElementById('players-list');
+        const numberPlayers = document.getElementById('number-of-players');
+
+        const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/`);
+
+        gameSocket.onopen = function(e) {
+            console.log('Websocket connection established');
+        }
+
+        gameSocket.onerror = function(error) {
+            console.log('Websocket error:', error);
+        }
+
+        gameSocket.onclose = function(e) {
+            console.log('Websocket connection closed', e);
+        }
+
+        gameSocket.onmessage = function(e) {
+            console.log('onmessage');
+            const data = JSON.parse(e.data);
+            if (data.type === 'game_update') {
+                updateGameState(data.game_state);
+            }
+            else if (data.type === 'player_join') {
+                addPlayer(data.username);
+            }
+        }
+
+        function updateGameState(gameState)
+        {
+            console.log('updateGameState');
+        }
+
+        function addPlayer(username)
+        {
+            console.log('addPlayer');
+            const li = document.createElement('li');
+            li.textContent = username;
+            playerList.appendChild(li);
+            numberPlayers.textContent = parseInt(numberPlayers.textContent) + 1;
+        }
+    </script>
 {% endblock %}
