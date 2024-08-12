@@ -95,20 +95,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        await self.channel_layer.group_send(
-            self.game_group_name,
-            {
-                'type': 'player_join',
-                'username': self.user.username
-            }
-        )
-
-        game_state = await self.get_game_state()
-        await self.send(text_data=json.dumps({
-            'type': 'game_state',
-            'game_state': game_state
-        }))
-
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
             self.game_group_name,
@@ -117,45 +103,12 @@ class GameConsumer(AsyncWebsocketConsumer):
     
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        action = text_data_json['action']
-        if action == 'update_game':
-            await self.update_game_state(text_data_json['game_state'])
-        elif action == 'player_join':
-            pass
-        
-        game_state = await self.get_game_state()
-        await self.channel_layer.group_send(
-            self.game_group_name,
-            {
-                'type': 'game_update',
-                'game_state': game_state
-            }
-        )
+        action = text_data_json['type']
+        if action == 'player_join':
+            await self.player_join()
     
     async def player_join(self, event):
         await self.send(text_data=json.dumps({
             'type': 'player_join',
             'username': event['username']
         }))
-    
-    async def game_update(self, event):
-        game_state = event['game_state']
-        await self.send(text_data=json.dumps({
-            'type': 'game_update',
-            'game_state': game_state
-        }))
-    
-    @database_sync_to_async
-    def get_game_state(self):
-        game = Game.objects.get(id=self.game_id)
-        players = Player.objects.filter(game=game)
-        return {
-            'state': game.state,
-            'players': [player.user.username for player in players]
-        }
-    
-    @database_sync_to_async
-    def update_game_state(self, new_state):
-        game = Game.objects.get(id=self.game_id)
-        game.state = new_state
-        game.save()
