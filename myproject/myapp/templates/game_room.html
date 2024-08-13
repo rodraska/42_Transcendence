@@ -5,12 +5,8 @@
 {% block content %}
 <h1>Game Room: {{ game.name }}</h1>
 <h2>Players:</h2>
-<h3>Number: <span id="number-of-players">{{ game.number_of_players }}</span></h3>
-<ul id="players-list">
-    {% for player in players %}
-        <li>{{ player.user.username }}</li>
-    {% endfor %}
-</ul>
+<h3>Number: <span id="number-of-players"></span></h3>
+<ul id="players-list"></ul>
 <a href="{% url 'game_play' game.id %}" class="start-game-btn">Start Game</a>
 <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
 
@@ -42,16 +38,11 @@
         const username = data.username
         console.log(message)
         console.log(username)
-        if (message === 'player_join') player_join(username)
     }
     function sendMessage()
     {
         console.log('sendMessage')
         gameSocket.send(JSON.stringify({message: 'player_join'}))
-    }
-    function player_join(username)
-    {
-        
     }
 </script>
 {% endblock %}
