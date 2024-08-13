@@ -25,6 +25,7 @@
     const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/room/${roomId}/`);
     chatSocket.onmessage = function(e)
     {
+        console.log('onmessage')
         const data = JSON.parse(e.data);
         const messageDiv = document.createElement('div');
         const metaSpan = document.createElement('span');
@@ -38,6 +39,7 @@
         chatLog.scrollTop = chatLog.scrollHeight;
     }
     function sendMessage() {
+        console.log('sendMessage')
         const message = messageInput.value;
         if (message) {
             chatSocket.send(JSON.stringify({message: message}));
