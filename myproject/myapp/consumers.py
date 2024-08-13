@@ -86,6 +86,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
+        print('connect')
         self.game_id = self.scope['url_route']['kwargs']['game_id']
         self.game_group_name = f'game_{self.game_id}'
         self.user = self.scope["user"]
@@ -98,19 +99,35 @@ class GameConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
+        print('disconnect')
         await self.channel_layer.group_discard(
             self.game_group_name,
             self.channel_name
         )
-    
+
     async def receive(self, text_data):
+        print('receive')
         text_data_json = json.loads(text_data)
-        action = text_data_json['type']
-        if action == 'player_join':
-            await self.player_join()
+        message = text_data_json['message']
+        username = self.scope["user"].username
+
+        await self.channel_layer.group_send(
+            self.game_group_name,
+            {
+                'type': 'player_join',
+                'message': 'player_join',
+                'username': username
+            }
+        )
     
     async def player_join(self, event):
+        print('player_join')
+        message = event['message']
+        username = event['username']
+
         await self.send(text_data=json.dumps({
-            'type': 'player_join',
-            'username': event['username']
+            'message': message,
+            'username': username
         }))
+
+    
