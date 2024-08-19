@@ -38,6 +38,18 @@
         const username = data.username
         console.log(message)
         console.log(username)
+        if (data.type === 'player_join')
+            addPlayer(username)
+        if (data.type === 'existing_players')
+            data.players.forEach(player => addPlayer(player.username));
+    }
+    function addPlayer(username)
+    {
+        console.log('addPlayer')
+        const playerElement = document.createElement('li');
+        playerElement.textContent = username;
+        playersList.appendChild(playerElement);
+        numberPlayers.textContent = playersList.children.length;
     }
     function sendMessage()
     {

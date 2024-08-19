@@ -98,6 +98,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
+        players = await self.get_players()
+
+        await self.send(json.dumps({
+            'type': 'existing_players',
+            'players': players
+        }))
+
     async def disconnect(self, close_code):
         print('disconnect')
         await self.channel_layer.group_discard(
@@ -129,5 +136,13 @@ class GameConsumer(AsyncWebsocketConsumer):
             'message': message,
             'username': username
         }))
+    
+    @database_sync_to_async
+    def get_players(self):
+        print('get_players')
+        game = Game.objects.get(id=self.game_id)
+        players = list(game.players.order_by('joined_at').values('user__username'))
+        return [{'username': player['user__username']} for player in players]
+
 
     
