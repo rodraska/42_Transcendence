@@ -101,7 +101,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         players = await self.get_players()
 
         await self.send(json.dumps({
-            'type': 'existing_players',
+            'type': 'me_join',
             'players': players
         }))
 
@@ -121,19 +121,17 @@ class GameConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.game_group_name,
             {
-                'type': 'player_join',
-                'message': 'player_join',
+                'type': 'other_join',
                 'username': username
             }
         )
     
-    async def player_join(self, event):
-        print('player_join')
-        message = event['message']
+    async def other_join(self, event):
+        print('other_join')
         username = event['username']
 
         await self.send(text_data=json.dumps({
-            'message': message,
+            'type': 'other_join',
             'username': username
         }))
     
