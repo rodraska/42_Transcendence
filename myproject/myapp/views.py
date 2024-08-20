@@ -111,6 +111,7 @@ def game_room(request, game_id):
 
     context = {
         'game': game,
+        'player': player,
         'players': players,
     }
 
@@ -121,8 +122,12 @@ def game_play(request, game_id):
     game = get_object_or_404(Game, id=game_id)
     players = game.players.all()
 
+    with transaction.atomic():
+        player, created = Player.objects.get_or_create(user=request.user)
+
     context = {
         'game': game,
+        'player': player,
         'players': players,
     }
     return render(request, 'game_play.html', context)

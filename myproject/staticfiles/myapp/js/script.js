@@ -12,6 +12,8 @@ const offset = 4;
 const width = canvas.width;
 const height = canvas.height;
 
+console.log('playerId:', playerId);
+
 const player_tmp = getPlayerById(1);
 if (player_tmp) {
     console.log(`Player: ${player_tmp.username}`);

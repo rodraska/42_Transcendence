@@ -5,6 +5,7 @@
 
 {% block content %}
     <h1>CURVE!!!</h1>
+    <h2>Welcome, {{ player.user.username }} [{{ player.id }}]!</h2>
     <h2>Players:</h2>
     <h3 id="numberPlayers">Number: {{ game.number_of_players }}</h3>
     <ul id="playerList">
@@ -28,12 +29,13 @@
         roundElem.textContent = `Round: ${round}`;
         var numberPlayers = "{{ game.number_of_players }}";
         var playerElements = document.querySelectorAll('#playerList li');
+        var playerId = "{{ player.id }}"
         var players = [];
         for (var i = 0; i < playerElements.length; i++)
         {
-            var playerElement = playerElements[i];
-            var playerId = playerElement.dataset.playerId;
-            var username = playerElement.dataset.username;
+            let playerElement = playerElements[i];
+            let playerId = playerElement.dataset.playerId;
+            let username = playerElement.dataset.username;
 
             players.push({
                 id: playerId,

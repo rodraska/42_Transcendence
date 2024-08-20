@@ -4,11 +4,13 @@
 
 {% block content %}
 <h1>Game Room: {{ game.name }}</h1>
+<h2>Welcome, {{ player.user.username }} [{{ player.id }}]!</h2>
 <h2>Players:</h2>
 <h3>Number: <span id="number-of-players"></span></h3>
 <ul id="players-list"></ul>
-<a href="{% url 'game_play' game.id %}" class="start-game-btn">Start Game</a>
+<a class="start-game-btn" onclick="sendMessage('start_game')">Start Game</a>
 <a href="{% url 'leave_game' game.id %}" class="delete-room-btn">Leave Game</a>
+<a href="{% url 'game_play' game.id %}" type="hidden" id="start-game-hidden" style="display: none;">
 
 {{ game.id|json_script:"game-id" }}
 
@@ -24,7 +26,7 @@
     const players = new Set();
     gameSocket.onopen = function(e) {
         console.log('Websocket connection established');
-        sendMessage();
+        sendMessage('player_join');
     }
     gameSocket.onerror = function(error) {
         console.log('Websocket error:', error);
@@ -47,6 +49,10 @@
         {
             console.log(data.players)
             data.players.forEach(player => addPlayer(player.username));
+        }
+        if (data.type == 'start_game')
+        {
+            startGame();
         }   
     }
     function addPlayer(username)
@@ -60,10 +66,17 @@
         playersList.appendChild(playerElement);
         numberPlayers.textContent = players.size;
     }
-    function sendMessage()
+    function sendMessage(message)
     {
         console.log('sendMessage')
-        gameSocket.send(JSON.stringify({message: 'player_join'}))
+        if (message == 'player_join')
+            gameSocket.send(JSON.stringify({message: 'player_join'}))
+        if (message == 'start_game')
+            gameSocket.send(JSON.stringify({message: 'start_game'}))
+    }
+    function startGame()
+    {
+        document.getElementById('start-game-hidden').click();
     }
 </script>
 {% endblock %}
