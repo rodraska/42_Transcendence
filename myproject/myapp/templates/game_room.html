@@ -66,13 +66,13 @@
         playersList.appendChild(playerElement);
         numberPlayers.textContent = players.size;
     }
-    function sendMessage(message)
+    function sendMessage(type)
     {
         console.log('sendMessage')
-        if (message == 'player_join')
-            gameSocket.send(JSON.stringify({message: 'player_join'}))
-        if (message == 'start_game')
-            gameSocket.send(JSON.stringify({message: 'start_game'}))
+        if (type == 'player_join')
+            gameSocket.send(JSON.stringify({type: 'player_join'}))
+        if (type == 'start_game')
+            gameSocket.send(JSON.stringify({type: 'start_game'}))
     }
     function startGame()
     {

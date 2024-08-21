@@ -115,10 +115,10 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         print('receive')
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        type = text_data_json['type']
         username = self.scope["user"].username
 
-        if message == 'player_join':
+        if type == 'player_join':
             await self.channel_layer.group_send(
                 self.game_group_name,
                 {
@@ -126,11 +126,19 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'username': username
                 }
             )
-        elif message == 'start_game':
+        elif type == 'start_game':
             await self.channel_layer.group_send(
                 self.game_group_name,
                 {
                     'type': 'start_game',
+                    'username': username
+                }
+            )
+        elif type == 'keydown-right':
+            await self.channel_layer.ground_send(
+                self.game_group_name,
+                {
+                    'type': 'GUS',
                     'username': username
                 }
             )

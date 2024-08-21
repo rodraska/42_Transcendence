@@ -73,10 +73,15 @@
             console.log('updateGameState');
         }
 
-        function sendGameAction() {
+        function sendGameAction(action) {
             console.log('sendGameAction');
-            var roundElem = document.getElementById('round');
-            roundElem.textContent = `Round: ${round}`;
+            console.log(action)
+            gameSocket.send(JSON.stringify(action));
+            if (action.type === 'round')
+            {
+                var roundElem = document.getElementById('round');
+                roundElem.textContent = `Round: ${round}`;
+            }   
         }
     </script>
     <script src="{% static 'myapp/js/player.js' %}"></script>
