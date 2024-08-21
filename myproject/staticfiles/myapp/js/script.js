@@ -14,16 +14,6 @@ const height = canvas.height;
 
 console.log('playerId:', playerId);
 
-const player_tmp = getPlayerById(1);
-if (player_tmp) {
-    console.log(`Player: ${player_tmp.username}`);
-}
-else {
-    console.log('Player not found');
-}
-
-console.log('numberPlayers: ', numberPlayers);
-
 function players_free()
 {
     if (currentIters.begin == 150)

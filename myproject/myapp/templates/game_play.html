@@ -64,6 +64,9 @@
         const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/play/`);
         gameSocket.onmessage = function(e) {
             console.log('gameSocket.onmessage');
+            const data = JSON.parse(e.data)
+            const type = data.type
+            console.log(type)
         }
 
         function updateGameState(gameState) {
