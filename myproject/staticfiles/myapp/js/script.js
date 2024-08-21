@@ -67,6 +67,8 @@ function players_play()
 {
     if (stp == 1) currentIters.end++;
     if (currentIters.end > 300) return (ft_round());
+    sendGameAction({'type': 'player',
+                    'player': players[playerId - 1]})
     begin_iter();
     curr_iter();
     end_iter();

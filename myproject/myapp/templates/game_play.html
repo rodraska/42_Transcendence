@@ -30,14 +30,14 @@
         var numberPlayers = "{{ game.number_of_players }}";
         var playerElements = document.querySelectorAll('#playerList li');
         var playerId = "{{ player.id }}"
-        var players = [];
+        var players_list = [];
         for (var i = 0; i < playerElements.length; i++)
         {
             let playerElement = playerElements[i];
             let playerId = playerElement.dataset.playerId;
             let username = playerElement.dataset.username;
 
-            players.push({
+            players_list.push({
                 id: playerId,
                 username: username
             })
@@ -67,6 +67,8 @@
             const data = JSON.parse(e.data)
             const type = data.type
             console.log(type)
+            if (type == 'player')
+                console.log(data.player)
         }
 
         function updateGameState(gameState) {
@@ -75,8 +77,10 @@
 
         function sendGameAction(action) {
             console.log('sendGameAction');
-            console.log(action)
+            /* console.log(action) */
             gameSocket.send(JSON.stringify(action));
+           /*  if (action.type == 'player')
+                console.log(action.player) */
             if (action.type === 'round')
             {
                 var roundElem = document.getElementById('round');

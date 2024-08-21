@@ -118,37 +118,21 @@ class GameConsumer(AsyncWebsocketConsumer):
         type = text_data_json['type']
         username = self.scope["user"].username
 
-        if type == 'player_join':
-            await self.channel_layer.group_send(
-                self.game_group_name,
-                {
-                    'type': 'other_join',
-                    'username': username
-                }
-            )
-        elif type == 'start_game':
-            await self.channel_layer.group_send(
-                self.game_group_name,
-                {
-                    'type': 'start_game',
-                    'username': username
-                }
-            )
-        elif type == 'keydown-right':
-            await self.channel_layer.ground_send(
-                self.game_group_name,
-                {
-                    'type': 'GUS',
-                    'username': username
-                }
-            )
+        await self.channel_layer.group_send(
+            self.game_group_name,
+            {
+                'type': type,
+                'username': username,
+                'text_data_json': text_data_json
+            }
+        )
     
-    async def other_join(self, event):
+    async def player_join(self, event):
         print('other_join')
         username = event['username']
 
         await self.send(text_data=json.dumps({
-            'type': 'other_join',
+            'type': 'player_join',
             'username': username
         }))
 
@@ -159,6 +143,18 @@ class GameConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'type': 'start_game',
             'username': username
+        }))
+    
+    async def player(self, event):
+        print('player')
+        username = event['username']
+        text_data_json = event['text_data_json']
+        player = text_data_json['player']
+
+        await self.send(text_data=json.dumps({
+            'type': 'player',
+            'username': username,
+            'player': player
         }))
     
     @database_sync_to_async
