@@ -123,6 +123,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             {
                 'type': type,
                 'username': username,
+                'sender_channel_name': self.channel_name,
                 'text_data_json': text_data_json
             }
         )
@@ -131,31 +132,29 @@ class GameConsumer(AsyncWebsocketConsumer):
         print('other_join')
         username = event['username']
 
-        await self.send(text_data=json.dumps({
-            'type': 'player_join',
-            'username': username
-        }))
+        if self.channel_name != event['sender_channel_name']:
+            await self.send(text_data=json.dumps({
+                'type': 'player_join',
+                'username': username
+            }))
 
     async def start_game(self, event):
         print('start_game')
-        username = event['username']
 
         await self.send(text_data=json.dumps({
-            'type': 'start_game',
-            'username': username
+            'type': 'start_game'
         }))
     
     async def player(self, event):
         print('player')
-        username = event['username']
         text_data_json = event['text_data_json']
         player = text_data_json['player']
 
-        await self.send(text_data=json.dumps({
-            'type': 'player',
-            'username': username,
-            'player': player
-        }))
+        if self.channel_name != event['sender_channel_name']:
+            await self.send(text_data=json.dumps({
+                'type': 'player',
+                'player': player
+            }))
     
     @database_sync_to_async
     def get_players(self):

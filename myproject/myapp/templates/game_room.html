@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Game Room: {{ game.name }}</h1>
-<h2>Welcome, {{ player.user.username }} [{{ player.id }}]!</h2>
+<h2>Welcome, <span id="username">{{ player.user.username }}</span> [{{ player.id }}]!</h2>
 <h2>Players:</h2>
 <h3>Number: <span id="number-of-players"></span></h3>
 <ul id="players-list"></ul>
@@ -23,7 +23,7 @@
     const playersList = document.getElementById('players-list');
     const numberPlayers = document.getElementById('number-of-players');
     const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/`);
-    const players = new Set();
+    var players = new Set();
     gameSocket.onopen = function(e) {
         console.log('Websocket connection established');
         sendMessage('player_join');
@@ -58,9 +58,7 @@
     function addPlayer(username)
     {
         console.log('addPlayer');
-        if (players.has(username))
-            return ;
-        players.add(username);
+        players.add(username)
         const playerElement = document.createElement('li');
         playerElement.textContent = username;
         playersList.appendChild(playerElement);
@@ -69,10 +67,7 @@
     function sendMessage(type)
     {
         console.log('sendMessage')
-        if (type == 'player_join')
-            gameSocket.send(JSON.stringify({type: 'player_join'}))
-        if (type == 'start_game')
-            gameSocket.send(JSON.stringify({type: 'start_game'}))
+        gameSocket.send(JSON.stringify({type: type}))
     }
     function startGame()
     {
