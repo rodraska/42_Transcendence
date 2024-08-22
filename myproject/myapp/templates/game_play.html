@@ -69,6 +69,8 @@
             console.log(type)
             if (type == 'player')
                 console.log(data.player)
+            if (type == 'round')
+                round += 1;
         }
 
         function updateGameState(gameState) {
@@ -77,10 +79,7 @@
 
         function sendGameAction(action) {
             console.log('sendGameAction');
-            /* console.log(action) */
             gameSocket.send(JSON.stringify(action));
-           /*  if (action.type == 'player')
-                console.log(action.player) */
             if (action.type === 'round')
             {
                 var roundElem = document.getElementById('round');
@@ -103,7 +102,6 @@
     <script src="{% static 'myapp/js/paint.js' %}"></script>
     <script>
         window.onload = function() {
-        // Call your function here
         ft_start();
         }
     </script>

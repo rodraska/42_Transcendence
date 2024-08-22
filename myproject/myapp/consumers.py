@@ -171,6 +171,14 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'type': 'player',
                 'player': player
             }))
+        
+    async def round(self, event):
+        username = event['username']
+
+        await self.send(text_data=json.dumps({
+            'type': 'round',
+            'username': username
+        }))
     
     @database_sync_to_async
     def get_players(self):
