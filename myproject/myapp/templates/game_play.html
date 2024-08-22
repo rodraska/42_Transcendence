@@ -68,7 +68,11 @@
             const type = data.type
             console.log(type)
             if (type == 'player')
-                console.log(data.player)
+            {
+                console.log(data.player);
+                const tmp_player = Player.fromPlainObject(data.player);
+                tmp_player.paint_player();
+            }
             if (type == 'round')
                 round += 1;
         }
@@ -84,6 +88,10 @@
             {
                 var roundElem = document.getElementById('round');
                 roundElem.textContent = `Round: ${round}`;
+            }
+            if (action.type === 'player')
+            {
+                console.log(action.player)
             }   
         }
     </script>

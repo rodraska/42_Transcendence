@@ -166,11 +166,10 @@ class GameConsumer(AsyncWebsocketConsumer):
         text_data_json = event['text_data_json']
         player = text_data_json['player']
 
-        if self.channel_name != event['sender_channel_name']:
-            await self.send(text_data=json.dumps({
-                'type': 'player',
-                'player': player
-            }))
+        await self.send(text_data=json.dumps({
+            'type': 'player',
+            'player': player
+        }))
         
     async def round(self, event):
         username = event['username']

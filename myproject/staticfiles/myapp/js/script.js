@@ -12,6 +12,7 @@ const offset = 4;
 const width = canvas.width;
 const height = canvas.height;
 
+var me_player;
 console.log('playerId:', playerId);
 
 function players_free()
@@ -68,7 +69,7 @@ function players_play()
     if (stp == 1) currentIters.end++;
     if (currentIters.end > 300) return (ft_round());
     sendGameAction({'type': 'player',
-                    'player': players[playerId - 1]})
+                    'player': me_player})
     begin_iter();
     curr_iter();
     end_iter();
