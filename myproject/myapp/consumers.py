@@ -107,15 +107,26 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         print('disconnect')
+        username = self.scope["user"].username
+
         await self.channel_layer.group_discard(
             self.game_group_name,
             self.channel_name
+        )
+
+        await self.channel_layer.group_send(
+            self.game_group_name,
+            {
+                'type': 'player_leave',
+                'username': username
+            }
         )
 
     async def receive(self, text_data):
         print('receive')
         text_data_json = json.loads(text_data)
         type = text_data_json['type']
+        print(type)
         username = self.scope["user"].username
 
         await self.channel_layer.group_send(
@@ -129,7 +140,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
     
     async def player_join(self, event):
-        print('other_join')
         username = event['username']
 
         if self.channel_name != event['sender_channel_name']:
@@ -137,16 +147,22 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'type': 'player_join',
                 'username': username
             }))
+    
+    async def player_leave(self, event):
+        username = event['username']
+
+        await self.send(text_data=json.dumps({
+            'type': 'player_leave',
+            'username': username
+        }))
 
     async def start_game(self, event):
-        print('start_game')
 
         await self.send(text_data=json.dumps({
             'type': 'start_game'
         }))
     
     async def player(self, event):
-        print('player')
         text_data_json = event['text_data_json']
         player = text_data_json['player']
 

@@ -45,6 +45,12 @@
             console.log(username)
             addPlayer(username)
         }
+        if (data.type === 'player_leave')
+        {
+            const username = data.username
+            console.log(username)
+            removePlayer(username)
+        }
         if (data.type === 'me_join')
         {
             console.log(data.players)
@@ -62,6 +68,15 @@
         const playerElement = document.createElement('li');
         playerElement.textContent = username;
         playersList.appendChild(playerElement);
+        numberPlayers.textContent = players.size;
+    }
+    function removePlayer(username)
+    {
+        console.log('removePlayer')
+        players.delete(username)
+        const playerElement = Array.from(playersList.children).find(li => li.textContent === username)
+        if (playerElement)
+            playersList.removeChild(playerElement)
         numberPlayers.textContent = players.size;
     }
     function sendMessage(type)
