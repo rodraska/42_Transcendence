@@ -67,8 +67,9 @@
             const type = data.type
             if (type == 'player')
             {
-                const tmp_player = Player.fromPlainObject(data.player);
-                players[tmp_player.id - 1] = tmp_player;
+                /* const tmp_player = Player.fromPlainObject(data.player);
+                players[tmp_player.id - 1] = tmp_player; */
+                players[tmp_player.id - 1].setPlainObject(data.player);
             }
             if (type == 'round')
                 round += 1;

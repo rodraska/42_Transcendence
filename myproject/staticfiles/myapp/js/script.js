@@ -24,8 +24,10 @@ function players_free()
     }
     currentIters.load = 0;
     reset_paint();
-    gameSaveHist();
-    gameCoordinates();
+    /* gameSaveHist();
+    gameCoordinates(); */
+    me_player.save_hist();
+    me_player.generalized_coordinates();
     gamePaintPlayer();
     gamePaintArrows();
     paint_offset();
@@ -43,11 +45,16 @@ function begin_iter()
 
 function curr_iter()
 {
-    gameSaveHist();
+    /* gameSaveHist();
     gameCoordinates();
     gameHoles();
     gamePowers();
-    //gameCheckCollision();
+    gameCheckCollision(); */
+    me_player.save_hist();
+    me_player.generalized_coordinates();
+    me_player.holes();
+    me_player.pick_powerups();
+    me_player.checkCollision();
     gamePaintHist();
     saveCanvas();
     gamePaintPlayer();

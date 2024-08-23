@@ -1,5 +1,3 @@
-
-
 function ft_round()
 {
     if (game_winner != 0) return (final_paint());
@@ -13,18 +11,24 @@ function ft_round()
 
 function players_spawn()
 {
-    let username = getPlayerById(playerId).username;
-    outer: while (1)
+    for (let i = 1; i <= numberPlayers; i++)
     {
-        x = Math.floor(Math.random() * 3 * width / 4) - 3 * width / 8;
-        y = Math.floor(Math.random() * 3 * height / 4) - 3 * height / 8;
-        for (let p = 0; p < players.length; p++)
-            if (dist([x, y], players[p].pos) < 100) {continue outer};
-        break ;
+        let username = getPlayerById(i).username;
+        outer: while (1)
+        {
+            x = Math.floor(Math.random() * 3 * width / 4) - 3 * width / 8;
+            y = Math.floor(Math.random() * 3 * height / 4) - 3 * height / 8;
+            for (let p = 0; p < players.length; p++)
+                if (dist([x, y], players[p].pos) < 100) {continue outer};
+            break ;
+        }
+        let t = Math.floor(Math.random() * 361) * Math.PI / 180;
+        let tmp_player = new Player(i, username, playerColors[i], playerRGB[i], [x, y], t, playerControls[i][0], playerControls[i][1])
+        if (i == playerId)
+            me_player = tmp_player;
+        players.push(tmp_player);
     }
-    let t = Math.floor(Math.random() * 361) * Math.PI / 180;
-    me_player = new Player(playerId, username, playerColors[playerId], playerRGB[playerId], [x, y], t, playerControls[playerId][0], playerControls[playerId][1])
-    players.push(me_player);
+    
 }
 
 function players_load()

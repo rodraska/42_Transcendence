@@ -27,6 +27,24 @@ class Player
         this.left = left;
     }
 
+    static setPlainObject(plainObj)
+    {
+        this.back = plainObj.back;
+        this.mid = plainObj.mid;
+        this.powers = plainObj.powers;
+        this.vel = plainObj.vel;
+        this.hole_iter = plainObj.hole_iter;
+        this.turning = plainObj.turning;
+        this.god = plainObj.god;
+        this.stop = plainObj.stop;
+        this.pos = plainObj.pos;
+        this.truepos = plainObj.truepos;
+        this.theta = plainObj.theta;
+        this.trig = plainObj.trig;
+        this.right = plainObj.right;
+        this.left = plainObj.left;
+    }
+
     static fromPlainObject(plainObj) {
         // Create a new Player instance with the required constructor parameters
         const player = new Player(
