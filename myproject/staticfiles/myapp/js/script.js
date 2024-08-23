@@ -31,6 +31,8 @@ function players_free()
     gamePaintPlayer();
     gamePaintArrows();
     paint_offset();
+    sendGameAction({'type': 'player',
+                    'player': me_player})
     currentIters.begin++;
     requestAnimationFrame(players_free);
 }
@@ -74,11 +76,11 @@ function players_play()
 {
     if (stp == 1) currentIters.end++;
     if (currentIters.end > 300) return (ft_round());
-    sendGameAction({'type': 'player',
-                    'player': me_player})
     begin_iter();
     curr_iter();
     end_iter();
+    sendGameAction({'type': 'player',
+                    'player': me_player})
     requestAnimationFrame(players_play);
 }
 

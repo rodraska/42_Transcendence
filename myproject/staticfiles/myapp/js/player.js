@@ -27,63 +27,9 @@ class Player
         this.left = left;
     }
 
-    static setPlainObject(plainObj)
+    setPlainObject(plainObj)
     {
-        this.back = plainObj.back;
-        this.mid = plainObj.mid;
-        this.powers = plainObj.powers;
-        this.vel = plainObj.vel;
-        this.hole_iter = plainObj.hole_iter;
-        this.turning = plainObj.turning;
-        this.god = plainObj.god;
-        this.stop = plainObj.stop;
-        this.pos = plainObj.pos;
-        this.truepos = plainObj.truepos;
-        this.theta = plainObj.theta;
-        this.trig = plainObj.trig;
-        this.right = plainObj.right;
-        this.left = plainObj.left;
-    }
-
-    static fromPlainObject(plainObj) {
-        // Create a new Player instance with the required constructor parameters
-        const player = new Player(
-            plainObj.id || null,
-            plainObj.name || "",
-            plainObj.color || "",
-            plainObj.rgb || [],
-            plainObj.pos || [0, 0],
-            plainObj.theta || 0,
-            plainObj.right || false,
-            plainObj.left || false
-        );
-
-        // Iterate over all properties in the plain object and assign them to the new Player instance
-        for (const [key, value] of Object.entries(plainObj)) {
-            if (key !== 'constructor' && key !== '__proto__') {
-                player[key] = value;
-            }
-        }
-
-        // Ensure all class-level attributes are set, using default values if not present in plainObj
-        player.back = plainObj.back || [0, 0];
-        player.mid = plainObj.mid || [0, 0];
-        player.powers = plainObj.powers || [];
-        player.vel = plainObj.vel || [0, 0];
-        player.vel_t = plainObj.vel_t || baseValues.vel;
-        player.radius = plainObj.radius || baseValues.radius;
-        player.turn_rate = plainObj.turn_rate || baseValues.turn;
-        player.hole_rate = plainObj.hole_rate || baseValues.hole;
-        player.hole_iter = plainObj.hole_iter || 0;
-        player.turning = plainObj.turning || 0;
-        player.god = plainObj.god || false;
-        player.stop = plainObj.stop || false;
-
-        // Recalculate any derived properties
-        player.truepos = [player.pos[0] + width / 2, player.pos[1] + height / 2];
-        player.trig = [player._cos(0), player._sin(0)];
-
-        return player;
+        Object.assign(this, plainObj);
     }
 }
 

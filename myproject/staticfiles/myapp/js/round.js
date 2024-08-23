@@ -28,7 +28,6 @@ function players_spawn()
             me_player = tmp_player;
         players.push(tmp_player);
     }
-    
 }
 
 function players_load()

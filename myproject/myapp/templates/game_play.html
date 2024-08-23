@@ -69,7 +69,7 @@
             {
                 /* const tmp_player = Player.fromPlainObject(data.player);
                 players[tmp_player.id - 1] = tmp_player; */
-                players[tmp_player.id - 1].setPlainObject(data.player);
+                players[data.player.id - 1].setPlainObject(data.player);
             }
             if (type == 'round')
                 round += 1;
@@ -82,9 +82,6 @@
                 var roundElem = document.getElementById('round');
                 roundElem.textContent = `Round: ${round}`;
             }
-            if (action.type === 'player')
-            {
-            }   
         }
     </script>
     <script src="{% static 'myapp/js/player.js' %}"></script>
