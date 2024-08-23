@@ -7,7 +7,6 @@ from datetime import datetime
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print('connect')
         self.room_id = self.scope['url_route']['kwargs']['room_id']
         self.room_group_name = f'chat_{self.room_id}'
         self.user = self.scope["user"]
@@ -28,14 +27,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }))
     
     async def disconnect(self, close_code):
-        print('disconnect')
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
     async def receive(self, text_data):
-        print('receive')
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         username = self.scope["user"].username
@@ -53,7 +50,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def chat_message(self, event):
-        print('chat_message')
         message = event['message']
         user = event['user']
         timestamp = event['timestamp']
@@ -66,13 +62,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def save_message(self, message):
-        print('save_message')
         room = ChatRoom.objects.get(id=self.room_id)
         Message.objects.create(room=room, sender=self.user, content=message)
     
     @database_sync_to_async
     def get_messages(self):
-        print('get_message')
         room = ChatRoom.objects.get(id=self.room_id)
         messages = room.messages.order_by('timestamp')[:50]
         return [
@@ -86,7 +80,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print('connect')
         self.game_id = self.scope['url_route']['kwargs']['game_id']
         self.game_group_name = f'game_{self.game_id}'
         self.user = self.scope["user"]
@@ -106,7 +99,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         }))
 
     async def disconnect(self, close_code):
-        print('disconnect')
         username = self.scope["user"].username
 
         await self.channel_layer.group_discard(
@@ -123,10 +115,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
     async def receive(self, text_data):
-        print('receive')
         text_data_json = json.loads(text_data)
         type = text_data_json['type']
-        print(type)
         username = self.scope["user"].username
 
         await self.channel_layer.group_send(
@@ -181,7 +171,6 @@ class GameConsumer(AsyncWebsocketConsumer):
     
     @database_sync_to_async
     def get_players(self):
-        print('get_players')
         game = Game.objects.get(id=self.game_id)
         players = list(game.players.order_by('joined_at').values('user__username'))
         return [{'username': player['user__username']} for player in players]

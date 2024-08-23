@@ -63,13 +63,10 @@
         const gameId = JSON.parse(document.getElementById('game-id').textContent);
         const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/play/`);
         gameSocket.onmessage = function(e) {
-            console.log('gameSocket.onmessage');
             const data = JSON.parse(e.data)
             const type = data.type
-            console.log(type)
             if (type == 'player')
             {
-                console.log(data.player);
                 const tmp_player = Player.fromPlainObject(data.player);
                 players[tmp_player.id - 1] = tmp_player;
             }
@@ -77,12 +74,7 @@
                 round += 1;
         }
 
-        function updateGameState(gameState) {
-            console.log('updateGameState');
-        }
-
         function sendGameAction(action) {
-            console.log('sendGameAction');
             gameSocket.send(JSON.stringify(action));
             if (action.type === 'round')
             {
@@ -91,7 +83,6 @@
             }
             if (action.type === 'player')
             {
-                console.log(action.player)
             }   
         }
     </script>

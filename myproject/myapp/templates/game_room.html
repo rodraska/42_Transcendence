@@ -25,35 +25,27 @@
     const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/`);
     var players = new Set();
     gameSocket.onopen = function(e) {
-        console.log('Websocket connection established');
         sendMessage('player_join');
     }
     gameSocket.onerror = function(error) {
-        console.log('Websocket error:', error);
     }
     gameSocket.onclose = function(e) {
-        console.log('Websocket connection closed', e);
     }
     gameSocket.onmessage = function(e) {
-        console.log('onmessage')
         const data = JSON.parse(e.data)
         const type = data.type
-        console.log(type)
         if (data.type === 'player_join')
         {
             const username = data.username
-            console.log(username)
             addPlayer(username)
         }
         if (data.type === 'player_leave')
         {
             const username = data.username
-            console.log(username)
             removePlayer(username)
         }
         if (data.type === 'me_join')
         {
-            console.log(data.players)
             data.players.forEach(player => addPlayer(player.username));
         }
         if (data.type == 'start_game')
@@ -63,7 +55,6 @@
     }
     function addPlayer(username)
     {
-        console.log('addPlayer');
         players.add(username)
         const playerElement = document.createElement('li');
         playerElement.textContent = username;
@@ -72,7 +63,6 @@
     }
     function removePlayer(username)
     {
-        console.log('removePlayer')
         players.delete(username)
         const playerElement = Array.from(playersList.children).find(li => li.textContent === username)
         if (playerElement)
@@ -81,7 +71,6 @@
     }
     function sendMessage(type)
     {
-        console.log('sendMessage')
         gameSocket.send(JSON.stringify({type: type}))
     }
     function startGame()

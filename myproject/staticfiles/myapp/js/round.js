@@ -1,3 +1,5 @@
+
+
 function ft_round()
 {
     if (game_winner != 0) return (final_paint());

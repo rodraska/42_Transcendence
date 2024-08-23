@@ -13,7 +13,6 @@ const width = canvas.width;
 const height = canvas.height;
 
 var me_player;
-console.log('playerId:', playerId);
 
 function players_free()
 {
@@ -48,7 +47,7 @@ function curr_iter()
     gameCoordinates();
     gameHoles();
     gamePowers();
-    gameCheckCollision();
+    //gameCheckCollision();
     gamePaintHist();
     saveCanvas();
     gamePaintPlayer();
