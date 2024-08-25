@@ -23,43 +23,28 @@
 
     {{ game.id|json_script:"game-id" }}
 
+    <script src="{% static 'myapp/js/player.js' %}"></script>
+    <script src="{% static 'myapp/js/powerup.js' %}"></script>
+    <script src="{% static 'myapp/js/history.js' %}"></script>
+    <script src="{% static 'myapp/js/script.js' %}"></script>
+    <script src="{% static 'myapp/js/game.js' %}"></script>
+    <script src="{% static 'myapp/js/player_utils.js' %}"></script>
+    <script src="{% static 'myapp/js/player_paint.js' %}"></script>
+    <script src="{% static 'myapp/js/player_power.js' %}"></script>
+    <script src="{% static 'myapp/js/player_iteration.js' %}"></script>
+    <script src="{% static 'myapp/js/utils.js' %}"></script>
+    <script src="{% static 'myapp/js/round.js' %}"></script>
+    <script src="{% static 'myapp/js/keys.js' %}"></script>
+    <script src="{% static 'myapp/js/paint.js' %}"></script>
+    <script src="{% static 'myapp/js/game_play.js' %}"></script>
+
     <script>
-        var round = 1;
         var roundElem = document.getElementById('round');
         roundElem.textContent = `Round: ${round}`;
         var numberPlayers = "{{ game.number_of_players }}";
         var playerElements = document.querySelectorAll('#playerList li');
         var playerId = "{{ player.id }}"
-        var players_list = [];
-        for (var i = 0; i < playerElements.length; i++)
-        {
-            let playerElement = playerElements[i];
-            let playerId = playerElement.dataset.playerId;
-            let username = playerElement.dataset.username;
 
-            players_list.push({
-                id: playerId,
-                username: username
-            })
-        }
-        function getPlayerById(playerId)
-        {
-            const playerList = document.getElementById('playerList');
-            const playerElement = playerList.querySelector(`[data-player-id="${playerId}"]`);
-
-            if (playerElement)
-            {
-                const username = playerElement.dataset.username;
-                return {
-                    id: playerId,
-                    username: username
-                };
-            }
-            else
-            {
-                return null;
-            }
-        }
         const gameId = JSON.parse(document.getElementById('game-id').textContent);
         const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/play/`);
         gameSocket.onmessage = function(e) {
@@ -83,21 +68,7 @@
                 roundElem.textContent = `Round: ${round}`;
             }
         }
-    </script>
-    <script src="{% static 'myapp/js/player.js' %}"></script>
-    <script src="{% static 'myapp/js/powerup.js' %}"></script>
-    <script src="{% static 'myapp/js/history.js' %}"></script>
-    <script src="{% static 'myapp/js/script.js' %}"></script>
-    <script src="{% static 'myapp/js/game.js' %}"></script>
-    <script src="{% static 'myapp/js/player_utils.js' %}"></script>
-    <script src="{% static 'myapp/js/player_paint.js' %}"></script>
-    <script src="{% static 'myapp/js/player_power.js' %}"></script>
-    <script src="{% static 'myapp/js/player_iteration.js' %}"></script>
-    <script src="{% static 'myapp/js/utils.js' %}"></script>
-    <script src="{% static 'myapp/js/round.js' %}"></script>
-    <script src="{% static 'myapp/js/keys.js' %}"></script>
-    <script src="{% static 'myapp/js/paint.js' %}"></script>
-    <script>
+
         window.onload = function() {
         ft_start();
         }

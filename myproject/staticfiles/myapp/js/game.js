@@ -1,12 +1,10 @@
-//numberPlayers = 1;
-
-players = [];
-powers = [];
-//round = 1;
-dead = 0;
-stp = 0;
-round_winner = 0;
-game_winner = 0;
+var players = [];
+var powers = [];
+var dead = 0;
+var stp = 0;
+var round_winner = 0;
+var game_winner = 0;
+var round = 1;
 
 baseValues = {
     radius: 4.20,
