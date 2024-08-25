@@ -4,10 +4,10 @@ class Player
     mid = [0, 0];
     powers = [];
     vel = [0, 0];
-    vel_t = baseValues.vel;
-    radius = baseValues.radius;
-    turn_rate = baseValues.turn;
-    hole_rate = baseValues.hole;
+    vel_t = game.baseValues.vel;
+    radius = game.baseValues.radius;
+    turn_rate = game.baseValues.turn;
+    hole_rate = game.baseValues.hole;
     hole_iter = 0;
     turning = 0;
     god = false;

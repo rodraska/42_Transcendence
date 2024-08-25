@@ -22,12 +22,13 @@
     </div>
 
     {{ game.id|json_script:"game-id" }}
-
+    
+    <script src="{% static 'myapp/js/game.js' %}"></script>
     <script src="{% static 'myapp/js/player.js' %}"></script>
     <script src="{% static 'myapp/js/powerup.js' %}"></script>
     <script src="{% static 'myapp/js/history.js' %}"></script>
     <script src="{% static 'myapp/js/script.js' %}"></script>
-    <script src="{% static 'myapp/js/game.js' %}"></script>
+    
     <script src="{% static 'myapp/js/player_utils.js' %}"></script>
     <script src="{% static 'myapp/js/player_paint.js' %}"></script>
     <script src="{% static 'myapp/js/player_power.js' %}"></script>
@@ -40,27 +41,27 @@
 
     <script>
         var roundElem = document.getElementById('round');
-        roundElem.textContent = `Round: ${round}`;
+        roundElem.textContent = `Round: ${game.round}`;
         var numberPlayers = "{{ game.number_of_players }}";
         var playerElements = document.querySelectorAll('#playerList li');
         var playerId = "{{ player.id }}"
 
         const gameId = JSON.parse(document.getElementById('game-id').textContent);
         const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/play/`);
-        gameSocket.onmessage = function(e) {
+        gameSocket.onmessage = function(e) 
+        {
             const data = JSON.parse(e.data)
             const type = data.type
             if (type == 'player')
             {
-                /* const tmp_player = Player.fromPlainObject(data.player);
-                players[tmp_player.id - 1] = tmp_player; */
-                players[data.player.id - 1].setPlainObject(data.player);
+                game.players[data.player.id - 1].setPlainObject(data.player);
             }
             if (type == 'round')
-                round += 1;
+                game.round += 1;
         }
 
-        function sendGameAction(action) {
+        function sendGameAction(action) 
+        {
             gameSocket.send(JSON.stringify(action));
             if (action.type === 'round')
             {

@@ -30,7 +30,7 @@ FtPlayer.paint_arcs = function()
         ctx.lineWidth = 4;
         if (curr_power.iters <= 0) continue ;
         ctx.beginPath();
-        ctx.arc(this.truepos[0], this.truepos[1], this.radius + baseValues.radius * 2 + i * baseValues.radius * 1.2, this.theta, this.theta + Math.PI * 2 * curr_power.iters / baseIters[curr_power.id], false);
+        ctx.arc(this.truepos[0], this.truepos[1], this.radius + game.baseValues.radius * 2 + i * game.baseValues.radius * 1.2, this.theta, this.theta + Math.PI * 2 * curr_power.iters / game.baseIters[curr_power.id], false);
         ctx.stroke();
         if (curr_power.id == 10)
         {
@@ -76,7 +76,7 @@ FtPlayer.paint_arrow = function()
     paint_line(r_x, r_y, Math.floor(this.truepos[0] + 50 * this._cos(1/6)), Math.floor(this.truepos[1] + 50 * this._sin(1/6)));
     //right text
     ctx.font = "bold 15px Arial";
-    text = playerArrows[this.id][0];
+    text = game.playerArrows[this.id][0];
     bottomLeftX = Math.floor(this.truepos[0] + 65 * this._cos(1/5));
     bottomLeftY = Math.floor(this.truepos[1] + 65 * this._sin(1/5));  
     ctx.save();
@@ -85,7 +85,7 @@ FtPlayer.paint_arrow = function()
     ctx.fillText(text, 0, 0);
     ctx.restore();
     //left text
-    text = playerArrows[this.id][1];
+    text = game.playerArrows[this.id][1];
     textWidth = ctx.measureText(text).width;
     bottomRightX = Math.floor(this.truepos[0] + 65 * this._cos(-1/5)) + textWidth * this.trig[1];
     bottomRightY = Math.floor(this.truepos[1] + 65 * this._sin(-1/5)) - textWidth * this.trig[0];

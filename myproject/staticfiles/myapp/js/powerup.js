@@ -171,7 +171,7 @@ class PowerCheese extends PowerUp
     }
     powerRemove() 
     {
-        this.player.hole_rate = baseValues.hole;
+        this.player.hole_rate = game.baseValues.hole;
     }
 }
 
@@ -219,7 +219,7 @@ const FtPower = PowerUp.prototype;
 
 FtPower.paint_powerup = function()
 {
-    ctx.fillStyle = powerColors[this.id];
+    ctx.fillStyle = game.powerColors[this.id];
     ctx.beginPath();
     ctx.arc((this.pos[0]) + width / 2, (this.pos[1]) + height / 2, 20, 0, 2 * Math.PI);
     ctx.fill();
@@ -227,21 +227,21 @@ FtPower.paint_powerup = function()
 
 function new_powerup()
 {
-    drop = (currentIters[14] == 0) ? 601 : 301;
+    drop = (game.currentIters[14] == 0) ? 601 : 301;
     if (Math.floor(Math.random() * drop) > 1) return;
     outer : while (1)
     {
         x = Math.floor(Math.random() * width) - width / 2;
         y = Math.floor(Math.random() * height) - height / 2;
-        for (let i = 0; i < players.length; i++)
-            if (dist([x, y], players[i].pos) < 50) {continue outer};
-        for (let j = 0; j < powers.length; j++)
-            if (dist([x, y], powers[j].pos) < 20) {continue outer};
+        for (let i = 0; i < game.players.length; i++)
+            if (dist([x, y], game.players[i].pos) < 50) {continue outer};
+        for (let j = 0; j < game.powers.length; j++)
+            if (dist([x, y], game.powers[j].pos) < 20) {continue outer};
         break ;
     }
     //id = Math.floor(Math.random() * 15) + 1; //all the power ups
     //id = Math.floor(Math.random() * 2); //specific range
     id = 1; //specific powerup
-    //powers.push(new PowerUp(id, [x, y], baseIters[id]));
-    powers.push(new powerConstructors[15](id, [x, y], baseIters[id], null));
+    //game.powers.push(new PowerUp(id, [x, y], game.baseIters[id]));
+    game.powers.push(new game.powerConstructors[15](id, [x, y], game.baseIters[id], null));
 }

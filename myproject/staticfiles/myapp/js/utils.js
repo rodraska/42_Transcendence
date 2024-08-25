@@ -10,19 +10,19 @@ function avg(x1, x2)
 
 function loop_all_players(ft_function, ...args)
 {
-    for (let j = 0; j < players.length; j++) ft_function.apply(players[j], args);
+    for (let j = 0; j < game.players.length; j++) ft_function.apply(game.players[j], args);
 }
 
 function loop_all_powers(ft_function, ...args)
 {
-    for (let j = 0; j < powers.length; j++) ft_function.apply(powers[j], args);
+    for (let j = 0; j < game.powers.length; j++) ft_function.apply(game.powers[j], args);
 }  
 
 function give_points(id)
 {
-    for (let i = 0; i < players.length; i++)
+    for (let i = 0; i < game.players.length; i++)
     {
-        (i != (id - 1) && players[i].stop == false) ? playerScores[i + 1] += 1 : null;
+        (i != (id - 1) && game.players[i].stop == false) ? game.playerScores[i + 1] += 1 : null;
         /* abc Increase player score */
     }
 }

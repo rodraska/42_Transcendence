@@ -48,7 +48,7 @@ FtPlayer.hard_boundaries = function()
 
 FtPlayer.soft_boundaries = function()
 {
-    if (currentIters[13] == 0) return ;
+    if (game.currentIters[13] == 0) return ;
     if (this.pos[0] >= width / 2 - offset)
     {
         this.pos[0] -= (width - offset * 2);
