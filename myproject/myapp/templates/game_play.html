@@ -48,10 +48,16 @@
 
         const gameId = JSON.parse(document.getElementById('game-id').textContent);
         const gameSocket = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/play/`);
+
+        gameSocket.onopen = function(e) {
+            ft_start();
+        }
+
         gameSocket.onmessage = function(e) 
         {
             const data = JSON.parse(e.data)
             const type = data.type
+            console.log(type)
             if (type == 'player')
             {
                 game.players[data.player.id - 1].setPlainObject(data.player);
@@ -62,7 +68,10 @@
 
         function sendGameAction(action) 
         {
-            gameSocket.send(JSON.stringify(action));
+            if (gameSocket && gameSocket.readyState === WebSocket.OPEN)
+                gameSocket.send(JSON.stringify(action));
+            else
+                console.log('noot')
             if (action.type === 'round')
             {
                 var roundElem = document.getElementById('round');
@@ -70,8 +79,9 @@
             }
         }
 
-        window.onload = function() {
-        ft_start();
-        }
+        /*window.onload = function() 
+        {
+            ft_start();
+        }*/
     </script>
 {% endblock %}

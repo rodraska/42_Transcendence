@@ -83,6 +83,5 @@ function ft_start()
 {
     reset_paint();
     players_spawn();
-    players_load();
     players_still();
 }

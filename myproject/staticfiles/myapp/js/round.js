@@ -35,6 +35,7 @@ function players_load()
     for (let key in game.currentIters) game.currentIters[key] = 0;
     game.round_winner = 0;
     game.stp = 0;
+    reset_paint();
     paint_offset();
     game.PaintPlayer();
     game.PaintArrows();
@@ -42,8 +43,25 @@ function players_load()
 
 function players_still()
 {
+    if (game.currentIters.load == 0)
+    {
+        for (let key in game.currentIters) game.currentIters[key] = 0;
+        game.round_winner = 0;
+        game.stp = 0;
+        reset_paint();
+    }
+    if (game.currentIters.load > 30)
+    {
+        reset_paint();
+        paint_offset();
+        game.PaintPlayer();
+        game.PaintArrows();
+    }
     if (game.currentIters.load == 150) return (players_free());
-    game.currentIters.load++;
+    
+    sendGameAction({'type': 'player',
+                    'player': me_player})
+    game.currentIters.load++;               
     requestAnimationFrame(players_still);
 }
 
