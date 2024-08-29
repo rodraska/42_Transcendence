@@ -66,6 +66,8 @@ FtPlayer.checkCollision = function()
             {
                 console.log(i);
                 console.log('collision regular');
+                sendGameAction({'type': 'collision',
+                    'player': me_player});
                 this.processCollision();
                 return ;
             }
@@ -74,12 +76,16 @@ FtPlayer.checkCollision = function()
         if (checkRGB([x1, y1], [255, 255, 255]))
         {
             console.log('collision white');
+            sendGameAction({'type': 'collision',
+                'player': me_player});
             this.processCollision();
             return ;
         }
         if (this.hard_boundaries())
         {
             console.log('collision out');
+            sendGameAction({'type': 'collision',
+                'player': me_player});
             this.processCollision();
             return ;
         }

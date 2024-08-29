@@ -59,29 +59,25 @@
             const type = data.type
             console.log(type)
             if (type == 'player')
-            {
                 game.players[data.player.id - 1].setPlainObject(data.player);
-            }
             if (type == 'round')
                 game.round += 1;
+            if (type == 'collision')
+                game.players[data.player.id - 1].processCollision();
         }
 
         function sendGameAction(action) 
         {
             if (gameSocket && gameSocket.readyState === WebSocket.OPEN)
                 gameSocket.send(JSON.stringify(action));
-            else
-                console.log('noot')
             if (action.type === 'round')
             {
                 var roundElem = document.getElementById('round');
-                roundElem.textContent = `Round: ${round}`;
+                roundElem.textContent = `Round: ${game.JSON}`;
+                playerElements.forEach(item => {
+                    item.textContent = "jakarias";
+                })
             }
         }
-
-        /*window.onload = function() 
-        {
-            ft_start();
-        }*/
     </script>
 {% endblock %}
