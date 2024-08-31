@@ -61,7 +61,10 @@
             if (type == 'player')
                 game.players[data.player.id - 1].setPlainObject(data.player);
             if (type == 'round')
-                game.round += 1;
+            {
+                var roundElem = document.getElementById('round');
+                roundElem.textContent = `Round: ${game.round}`;
+            }
             if (type == 'collision')
                 game.players[data.player.id - 1].processCollision();
         }
@@ -70,14 +73,6 @@
         {
             if (gameSocket && gameSocket.readyState === WebSocket.OPEN)
                 gameSocket.send(JSON.stringify(action));
-            if (action.type === 'round')
-            {
-                var roundElem = document.getElementById('round');
-                roundElem.textContent = `Round: ${game.JSON}`;
-                playerElements.forEach(item => {
-                    item.textContent = "jakarias";
-                })
-            }
         }
     </script>
 {% endblock %}
