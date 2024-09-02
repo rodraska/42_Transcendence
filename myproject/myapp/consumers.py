@@ -180,6 +180,16 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'player': player
             }))
     
+    async def powerup(self, event):
+        text_data_json = event['text_data_json']
+        powerup = text_data_json['powerup']
+
+        if self.channel_name != event['sender_channel_name']:
+            await self.send(text_data=json.dumps({
+                'type': 'powerup',
+                'powerup': powerup
+            }))
+    
     @database_sync_to_async
     def get_players(self):
         game = Game.objects.get(id=self.game_id)

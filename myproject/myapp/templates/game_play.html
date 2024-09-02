@@ -67,8 +67,12 @@
             }
             if (type == 'collision')
                 game.players[data.player.id - 1].processCollision();
+            if (type == 'powerup')
+            {
+                let power = data.powerup;
+                game.powers.push(new PowerUp(power.id, power.pos, power.iters, null));
+            }  
         }
-
         function sendGameAction(action) 
         {
             if (gameSocket && gameSocket.readyState === WebSocket.OPEN)

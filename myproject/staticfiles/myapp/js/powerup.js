@@ -7,6 +7,12 @@ class PowerUp
         this.iters = iters;
         this.player = player;
     }
+
+    setPlainObject(plainObj)
+    {
+        Object.assign(this, plainObj);
+    }
+
     checkApplyPower() 
     {
         if (this.player != null)
@@ -243,5 +249,8 @@ function new_powerup()
     //id = Math.floor(Math.random() * 2); //specific range
     id = 1; //specific powerup
     //game.powers.push(new PowerUp(id, [x, y], game.baseIters[id]));
-    game.powers.push(new game.powerConstructors[15](id, [x, y], game.baseIters[id], null));
+    power = new game.powerConstructors[15](id, [x, y], game.baseIters[id], null)
+    game.powers.push(power);
+    sendGameAction({'type': 'powerup',
+                    'powerup': power});
 }

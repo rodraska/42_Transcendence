@@ -41,7 +41,7 @@ function begin_iter()
 {
     for (let i = 12; i <= 15; i++) if (game.currentIters[i] > 0) game.currentIters[i]--;
     paint_offset();
-    //new_powerup();
+    if(me_player.id == 1) new_powerup();
     restoreCanvas();
 }
 
@@ -51,7 +51,7 @@ function curr_iter()
     me_player.generalized_coordinates();
     me_player.holes();
     me_player.pick_powerups();
-    me_player.checkCollision();
+    //me_player.checkCollision();
     game.PaintHist();
     saveCanvas();
     game.PaintPlayer();
