@@ -71,7 +71,9 @@
             {
                 let power = data.powerup;
                 game.powers.push(new PowerUp(power.id, power.pos, power.iters, null));
-            }  
+            }
+            if (type == 'power_splice')
+                game.powers.splice(data.index, 1);  
         }
         function sendGameAction(action) 
         {

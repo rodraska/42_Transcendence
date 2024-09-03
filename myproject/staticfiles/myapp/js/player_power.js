@@ -7,6 +7,8 @@ FtPlayer.pick_powerups = function()
         {
             this.give_powerup(game.powers[i].id);
             game.powers.splice(i, 1);
+            sendGameAction({'type': 'power_splice',
+                'index': i})
             i--;
         }
     }
@@ -17,7 +19,7 @@ FtPlayer.give_powerup = function(id)
 {
     if (id <= 4) //give me
     {
-        let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], this);
+        let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], this.id);
         this.powers.push(power);
     }
     if (id == 5) //renew me
@@ -25,7 +27,7 @@ FtPlayer.give_powerup = function(id)
         let id_renew = this.check_powerup(id)
         if (id_renew == -1)
         {
-            let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], this);
+            let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], this.id);
             this.powers.push(power);
         } 
         else this.powers[id_renew].iters = game.baseIters[id]; 
@@ -36,7 +38,7 @@ FtPlayer.give_powerup = function(id)
         {
             if (game.players[i].id != this.id)
             {
-                let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], game.players[i]);
+                let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], game.players[i].id);
                 game.players[i].powers.push(power);
             } 
         }
@@ -49,7 +51,7 @@ FtPlayer.give_powerup = function(id)
             {
                 if (game.players[i].check_powerup(id) == -1)
                 {
-                    let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], game.players[i]);
+                    let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], game.players[i].id);
                     game.players[i].powers.push(power);
                 } 
             } 
@@ -63,7 +65,7 @@ FtPlayer.give_powerup = function(id)
             let id_renew = this.check_powerup(id);
             if (id_renew == -1)
             {
-                let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], this);
+                let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], this.id);
                 game.players[i].powers.push(power);
             }
             else this.powers[id_renew].iters = game.baseIters[id]; 
@@ -81,7 +83,7 @@ FtPlayer.iter_power = function()
     for (let i = 0; i < this.powers.length; i++)
     {
         curr_power = this.powers[i];
-        if (curr_power.iters == game.baseIters[id] && this.count_powerup(curr_power.id) < 4)
+        if (curr_power.iters == game.baseIters[curr_power.id] && this.count_powerup(curr_power.id) < 4)
             curr_power.powerApply();
         if (curr_power.iters == -1)
         {

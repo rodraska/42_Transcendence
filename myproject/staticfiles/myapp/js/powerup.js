@@ -1,11 +1,16 @@
 class PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
         this.pos = pos;
         this.id = id;
         this.iters = iters;
-        this.player = player;
+        this.p_id = p_id;
+    }
+
+    getPlayer()
+    {
+        return (game.players[this.p_id - 1]);
     }
 
     setPlainObject(plainObj)
@@ -15,10 +20,10 @@ class PowerUp
 
     checkApplyPower() 
     {
-        if (this.player != null)
+        if (this.getPlayer() != null)
         {
             let count = 0;
-            for (let i = 0; i < this.player.powers.length; i++) if (this.player.powers[i].id == this.id) count++;
+            for (let i = 0; i < this.getPlayer().powers.length; i++) if (this.getPlayer().powers[i].id == this.id) count++;
             if (count < 4) this.powerApply();
         }
     }
@@ -28,164 +33,164 @@ class PowerUp
 
 class PowerSpeed extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
         
     }
     powerApply()
     {
-        this.player.vel_t *= 2;
-        this.player.turn_rate *= 1.75;
+        this.getPlayer().vel_t *= 2;
+        this.getPlayer().turn_rate *= 1.75;
     }   
     powerRemove()
     {
-        this.player.vel_t /= 2;
-        this.player.turn_rate /= 1.75;
+        this.getPlayer().vel_t /= 2;
+        this.getPlayer().turn_rate /= 1.75;
     }
 }
 
 class PowerSlow extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
         
     }
     powerApply() 
     {
-        this.player.vel_t /= 2;
-        this.player.turn_rate /= 1.35;
+        this.getPlayer().vel_t /= 2;
+        this.getPlayer().turn_rate /= 1.35;
     }
     powerRemove() 
     {
-        this.player.vel_t *= 2;
-        this.player.turn_rate *= 1.35;
+        this.getPlayer().vel_t *= 2;
+        this.getPlayer().turn_rate *= 1.35;
     }
 }
 
 class PowerThin extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
         
     }
     powerApply() 
     {
-        this.player.radius /= 2;
+        this.getPlayer().radius /= 2;
     }
     powerRemove() 
     {
-        this.player.radius *= 2;
+        this.getPlayer().radius *= 2;
     }
 }
 
 class PowerSmallTurn extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() 
     {
-        this.player.turn_rate *= 1.6;
+        this.getPlayer().turn_rate *= 1.6;
     }
     powerRemove() 
     {
-        this.player.turn_rate /= 1.6;
+        this.getPlayer().turn_rate /= 1.6;
     }
 }
 
 class PowerGod extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() 
     {
-        this.player.god = true;
+        this.getPlayer().god = true;
     }
     powerRemove() 
     {
-        this.player.god = false;
+        this.getPlayer().god = false;
     }
 }
 
 class PowerBig extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() 
     {
-        this.player.radius *= 2;
+        this.getPlayer().radius *= 2;
     }
     powerRemove() 
     {
-        this.player.radius /= 2;
+        this.getPlayer().radius /= 2;
     }
 }
 
 class PowerBigTurn extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() 
     {
-        this.player.turn_rate /= 1.75;
+        this.getPlayer().turn_rate /= 1.75;
     }
     powerRemove() 
     {
-        this.player.turn_rate *= 1.75;
+        this.getPlayer().turn_rate *= 1.75;
     }
 }
 
 class PowerReverse extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() 
     {
-        let tmp = this.player.right;
-        this.player.right = this.player.left;
-        this.player.left = tmp;
+        let tmp = this.getPlayer().right;
+        this.getPlayer().right = this.getPlayer().left;
+        this.getPlayer().left = tmp;
     }
     powerRemove() 
     {
-        let tmp = this.player.right;
-        this.player.right = this.player.left;
-        this.player.left = tmp;
+        let tmp = this.getPlayer().right;
+        this.getPlayer().right = this.getPlayer().left;
+        this.getPlayer().left = tmp;
     }
 }
 
 class PowerCheese extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() 
     {
-        this.player.hole_rate = 4
+        this.getPlayer().hole_rate = 4
     }
     powerRemove() 
     {
-        this.player.hole_rate = game.baseValues.hole;
+        this.getPlayer().hole_rate = game.baseValues.hole;
     }
 }
 
 class PowerBulb extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() {}
     powerRemove() {}
@@ -193,9 +198,9 @@ class PowerBulb extends PowerUp
 
 class PowerWalls extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() {}
     powerRemove() {}
@@ -203,9 +208,9 @@ class PowerWalls extends PowerUp
 
 class PowerMore extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() {}
     powerRemove() {}
@@ -213,9 +218,9 @@ class PowerMore extends PowerUp
 
 class PowerRubber extends PowerUp
 {
-    constructor(id, pos, iters, player)
+    constructor(id, pos, iters, p_id)
     {
-        super(id, pos, iters, player);
+        super(id, pos, iters, p_id);
     }
     powerApply() {}
     powerRemove() {}
@@ -247,8 +252,7 @@ function new_powerup()
     }
     //id = Math.floor(Math.random() * 15) + 1; //all the power ups
     //id = Math.floor(Math.random() * 2); //specific range
-    id = 1; //specific powerup
-    //game.powers.push(new PowerUp(id, [x, y], game.baseIters[id]));
+    id = 15; //specific powerup
     power = new game.powerConstructors[15](id, [x, y], game.baseIters[id], null)
     game.powers.push(power);
     sendGameAction({'type': 'powerup',

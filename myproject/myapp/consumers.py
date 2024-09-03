@@ -189,6 +189,16 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'type': 'powerup',
                 'powerup': powerup
             }))
+
+    async def power_splice(self, event):
+        text_data_json = event['text_data_json']
+        index = text_data_json['index']
+
+        if self.channel_name != event['sender_channel_name']:
+            await self.send(text_data=json.dumps({
+                'type': 'power_splice',
+                'index': index
+            }))
     
     @database_sync_to_async
     def get_players(self):
