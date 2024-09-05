@@ -40,6 +40,9 @@ FtPlayer.give_powerup = function(id)
             {
                 let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], game.players[i].id);
                 game.players[i].powers.push(power);
+                sendGameAction({'type': 'give_others',
+                    'power_id': id,
+                    'player_id': game.players[i].id})
             } 
         }
     }
@@ -49,11 +52,23 @@ FtPlayer.give_powerup = function(id)
         {
             if (game.players[i].id != this.id)
             {
-                if (game.players[i].check_powerup(id) == -1)
+                let id_renew = game.players[i].check_powerup(id);
+                if (id_renew == -1)
                 {
                     let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], game.players[i].id);
                     game.players[i].powers.push(power);
-                } 
+                    sendGameAction({'type': 'give_others',
+                        'power_id': id,
+                        'player_id': game.players[i].id})
+                }
+                else 
+                {
+                    game.players[i].powers[id_renew].iters = game.baseIters[id];
+                    sendGameAction({'type': 'renew_others',
+                    'power_index': id_renew,
+                    'power_id': id,
+                    'player_id': game.players[i].id})
+                }
             } 
         }
     }

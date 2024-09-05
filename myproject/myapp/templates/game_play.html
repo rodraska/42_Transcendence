@@ -73,7 +73,18 @@
                 game.powers.push(new PowerUp(power.id, power.pos, power.iters, null));
             }
             if (type == 'power_splice')
-                game.powers.splice(data.index, 1);  
+                game.powers.splice(data.index, 1);
+            
+            if (type == 'give_others' && data.player_id == me_player.id)
+            {
+                let power = new game.powerConstructors[data.power_id](data.power_id, [0, 0], game.baseIters[data.power_id], data.player_id);
+                me_player.powers.push(power);
+            }
+            if (type == 'renew_others' && data.player_id == me_player.id)
+            {
+                console.log('data.power_id: ', data.power_id);
+                me_player.powers[data.power_index].iters = game.baseIters[data.power_id];
+            }
         }
         function sendGameAction(action) 
         {

@@ -199,6 +199,32 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'type': 'power_splice',
                 'index': index
             }))
+
+    async def give_others(self, event):
+        text_data_json = event['text_data_json']
+        power_id = text_data_json['power_id']
+        player_id = text_data_json['player_id']
+
+        if self.channel_name != event['sender_channel_name']:
+            await self.send(text_data=json.dumps({
+                'type': 'give_others',
+                'power_id': power_id,
+                'player_id': player_id
+            }))
+
+    async def renew_others(self, event):
+        text_data_json = event['text_data_json']
+        power_index = text_data_json['power_index']
+        power_id = text_data_json['power_id']
+        player_id = text_data_json['player_id']
+
+        if self.channel_name != event['sender_channel_name']:
+            await self.send(text_data=json.dumps({
+                'type': 'renew_others',
+                'power_index': power_index,
+                'power_id': power_id,
+                'player_id': player_id
+            }))
     
     @database_sync_to_async
     def get_players(self):
