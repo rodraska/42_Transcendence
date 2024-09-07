@@ -75,20 +75,34 @@ FtPlayer.give_powerup = function(id)
     if (id == 12 || id == 13) //renew all
     {
         game.currentIters[id] = game.baseIters[id];
+        sendGameAction({'type': 'game_iters',
+            'power_id': id});
         for (let i = 0; i < game.players.length; i++)
         {
-            let id_renew = this.check_powerup(id);
+            let id_renew = game.players[i].check_powerup(id);
             if (id_renew == -1)
             {
                 let power = new game.powerConstructors[id](id, [0, 0], game.baseIters[id], this.id);
                 game.players[i].powers.push(power);
+                sendGameAction({'type': 'give_others',
+                    'power_id': id,
+                    'player_id': game.players[i].id});
             }
-            else this.powers[id_renew].iters = game.baseIters[id]; 
+            else 
+            {
+                game.players[i].powers[id_renew].iters = game.baseIters[id];
+                sendGameAction({'type': 'renew_others',
+                    'power_index': id_renew,
+                    'power_id': id,
+                    'player_id': game.players[i].id})
+            }
         }
     }
     if (id == 14 || id == 15) //general
     {
         game.currentIters[id] = game.baseIters[id];
+        sendGameAction({'type': 'game_iters',
+            'power_id': id});
         if (id == 15) reset_paint();
     }
 }

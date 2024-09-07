@@ -51,6 +51,11 @@ function curr_iter()
     me_player.generalized_coordinates();
     me_player.holes();
     me_player.pick_powerups();
+    if (game.clear == 1)
+    {
+        reset_paint();
+        game.clear = 0;
+    }
     //me_player.checkCollision();
     game.PaintHist();
     saveCanvas();

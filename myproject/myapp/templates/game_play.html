@@ -82,9 +82,15 @@
             }
             if (type == 'renew_others' && data.player_id == me_player.id)
             {
-                console.log('data.power_id: ', data.power_id);
                 me_player.powers[data.power_index].iters = game.baseIters[data.power_id];
             }
+            if (type == 'game_iters')
+            {
+                game.currentIters[data.power_id] = game.baseIters[data.power_id];
+                if (data.power_id == 15)
+                    game.clear = 1;    
+            }
+                
         }
         function sendGameAction(action) 
         {

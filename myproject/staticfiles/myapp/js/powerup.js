@@ -252,7 +252,7 @@ function new_powerup()
     }
     //id = Math.floor(Math.random() * 15) + 1; //all the power ups
     //id = Math.floor(Math.random() * 2); //specific range
-    id = 10; //specific powerup
+    id = 15; //specific powerup
     power = new game.powerConstructors[15](id, [x, y], game.baseIters[id], null)
     game.powers.push(power);
     sendGameAction({'type': 'powerup',

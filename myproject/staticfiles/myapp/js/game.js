@@ -9,6 +9,7 @@ class Game
     round_winner = 0;
     game_winner = 0;
     round = 1;
+    clear = 0;
     
     baseValues = {
         radius: 4.20,
